@@ -1,0 +1,15 @@
+name: '"Deploy to S3" Action for GitHub Actions',
+description: "Copy all the files from local dir to S# bucket",
+branding:
+  icon: 'cloud',
+  color: 'orange',
+inputs:
+  aws-s3-bucket-name:
+    description: 'Bucket name'
+    required: true
+  local-path:
+    description: 'Path to the local dir'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

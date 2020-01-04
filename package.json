@@ -1,0 +1,19 @@
+{
+  "name": "actions-aws-deploy-to-s3",
+  "version": "1.0.0",
+  "description": "Copy your local dir to S3 bucket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "ncc build index.js -0 dist"
+  },
+  "author": "Darko Antonijevic",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "aws-sdk": "^2.597.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.21.0"
+  }
+}
