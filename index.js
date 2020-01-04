@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const aws = require('aws-sdk');
+const fs = require('fs');
 
 
 const S3 = new aws.S3();
@@ -28,7 +29,7 @@ function uploadFiles(paramsDefault, localPath) {
       if (err) {
         throw err;
       } else {
-        core.debug("uploaded file ", key);
+        core.debug("uploaded file ", file);
       }
     })
   })
