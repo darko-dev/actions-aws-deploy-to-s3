@@ -7,6 +7,16 @@ const S3 = new aws.S3();
 function uploadFiles(paramsDefault, localPath) {
   let allFiles = fs.readdirSync(localPath);
 
+  //check if local path exists
+  if (!fs.existsSync(localPath)) {
+    throw new Error(`Folder ${localPath} does not exists`);
+  } else {
+    core.debug('folder exists');
+  }
+
+
+  core.debug(`copying files ${allFiles.length}`);
+
   allFiles.forEach(file => {
     let params = {
       ...paramsDefault,
@@ -31,6 +41,8 @@ async function run() {
     const localPath = core.getInput('local-path', { required: true });
 
 
+
+
     const paramsDefault = {
       Bucket: bucketName
     }
@@ -41,6 +53,7 @@ async function run() {
         throw err;
       } else {
         let listOfObjects = data.Contents.map(object => ({ Key: object.Key }));
+        core.debug(`deleting ${listOfObjects.length} files from the bucket`);
         if (listOfObjects.length) {
           S3.deleteObjects({
             ...paramsDefault,
