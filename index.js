@@ -39,23 +39,6 @@ function uploadFiles(paramsDefault, localPath) {
 
     })
   })
-
-
-  allFiles.forEach(file => {
-    let params = {
-      ...paramsDefault,
-      Key: file,
-      Body: fs.readFileSync(`${localPath}/${file}`)
-    }
-
-    S3.upload(params, (err, data) => {
-      if (err) {
-        throw err;
-      } else {
-        core.debug("uploaded file ", file);
-      }
-    })
-  })
 }
 
 async function run() {
