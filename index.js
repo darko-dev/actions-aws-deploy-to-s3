@@ -1,12 +1,14 @@
 const core = require('@actions/core');
 const aws = require('aws-sdk');
 const fs = require('fs');
+const glob = require('glob');
+const mime = require('mime-types');
 
 
 const S3 = new aws.S3();
 
 function uploadFiles(paramsDefault, localPath) {
-  let allFiles = fs.readdirSync(localPath);
+
 
   //check if local path exists
   if (!fs.existsSync(localPath)) {
@@ -15,8 +17,29 @@ function uploadFiles(paramsDefault, localPath) {
     core.debug('folder exists');
   }
 
+  glob(`${localPath}/**/*`, (err, files) => {
+    let pattern = new RegExp(localPath + '/');
+    core.debug('uploading ', files.length, ' files');
+    files.forEach(file => {
+      if (fs.lstatSync(file).isFile()) {
 
-  core.debug(`copying files ${allFiles.length}`);
+        S3.upload({
+          ...paramsDefault,
+          Key: file.replace(pattern, ''),
+          Body: fs.readFileSync(file),
+          ContentType: mime.lookup(file)
+        }, (err, data) => {
+          if (err) {
+            throw err;
+          } else {
+            core.debug("file uploaded ", file);
+          }
+        })
+      }
+
+    })
+  })
+
 
   allFiles.forEach(file => {
     let params = {
