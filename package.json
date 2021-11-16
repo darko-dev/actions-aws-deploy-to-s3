@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "aws-sdk": "^2.597.0",
+    "aws-sdk": "^2.814.0",
     "glob": "^7.1.6",
     "mime-types": "^2.1.26"
   },
